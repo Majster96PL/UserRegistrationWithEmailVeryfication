@@ -1,7 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.email.token.VerificationToken;
-import com.example.demo.email.token.VerificationTokenRepository;
+import com.example.demo.email.token.VerificationTokenService;
 import com.example.demo.security.PasswordEncoder;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ public class UserService implements UserDetailsService {
     private static final String MESSAGE = "User with email %s not found";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final VerificationTokenRepository verificationTokenRepository;
+    private final VerificationTokenService verificationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -31,9 +31,11 @@ public class UserService implements UserDetailsService {
 
     public String recordUser(User user){
         boolean isUserExists = userRepository.findByEmail(user.getEmail()).isPresent();
+
         if (isUserExists){
             throw new IllegalStateException("Email already taken");
         }
+
         String passwordEncoded = passwordEncoder
                 .bCryptPasswordEncoder()
                 .encode(user.getPassword());
@@ -46,7 +48,7 @@ public class UserService implements UserDetailsService {
                 LocalDateTime.now().plusMinutes(10),
                 user
         );
-        verificationTokenRepository.save(verificationToken);
+        verificationTokenService.saveVerificationToken(verificationToken);
         return token;
     }
 }
