@@ -1,11 +1,16 @@
 package com.example.demo.user;
 
+import com.example.demo.email.token.VerificationToken;
+import com.example.demo.email.token.VerificationTokenRepository;
 import com.example.demo.security.PasswordEncoder;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -14,6 +19,7 @@ public class UserService implements UserDetailsService {
     private static final String MESSAGE = "User with email %s not found";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final VerificationTokenRepository verificationTokenRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -33,6 +39,14 @@ public class UserService implements UserDetailsService {
                 .encode(user.getPassword());
         user.setPassword(passwordEncoded);
         userRepository.save(user);
-        return " ";
+        String token = UUID.randomUUID().toString();
+        var verificationToken = new VerificationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(10),
+                user
+        );
+        verificationTokenRepository.save(verificationToken);
+        return token;
     }
 }
