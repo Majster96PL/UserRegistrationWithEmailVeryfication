@@ -21,6 +21,7 @@ public class VerificationToken {
     private String token;
     private LocalDateTime createdToken;
     private LocalDateTime expiredToken;
+    private LocalDateTime confirmedToken;
     @ManyToOne
     @JoinColumn(nullable = false, name = "userId")
     private User user;
