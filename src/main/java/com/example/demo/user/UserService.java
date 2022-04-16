@@ -51,4 +51,8 @@ public class UserService implements UserDetailsService {
         verificationTokenService.saveVerificationToken(verificationToken);
         return token;
     }
+
+    public int enableUser(String email) {
+        return userRepository.enableUser(email);
+    }
 }
