@@ -10,13 +10,12 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
+@Transactional(readOnly = true)
 public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
     Optional<VerificationToken> findByToken(String token);
 
     @Transactional
     @Modifying
-    @Query("UPDATE ConfirmationToken t " +
-            "SET t.confirmedToken = ?2" +
-            "WHERE t.token = ?1")
+    @Query("UPDATE VerificationToken t SET t.confirmedToken = ?2 WHERE t.token = ?1")
     int updateConfirmedToken(String token, LocalDateTime confirmedToken);
 }
