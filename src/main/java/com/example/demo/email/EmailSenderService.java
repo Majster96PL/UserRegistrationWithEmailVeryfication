@@ -35,6 +35,5 @@ public class EmailSenderService implements EmailSender{
             log.error(FAILED_MESSAGE, e);
             throw new IllegalStateException(FAILED_MESSAGE);
         }
-
     }
 }
