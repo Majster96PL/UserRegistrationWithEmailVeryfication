@@ -30,6 +30,7 @@ public class EmailSenderService implements EmailSender{
             mimeMessageHelper.setTo(receiver);
             mimeMessageHelper.setSubject("Confirm your email!");
             mimeMessageHelper.setFrom("siemazrana@gmail.com");
+            mailSender.send(mimeMessage);
 
         }catch (MessagingException e){
             log.error(FAILED_MESSAGE, e);
