@@ -30,10 +30,11 @@ public class UserService implements UserDetailsService {
     }
 
     public String recordUser(User user){
-        boolean isUserExists = userRepository.findByEmail(user.getEmail()).isPresent();
+        boolean isUserExists = userRepository
+                .findByEmail(user.getEmail()).isPresent();
 
         if (isUserExists){
-            throw new IllegalStateException("Email already taken");
+            throw new IllegalStateException("Email taken already");
         }
 
         String passwordEncoded = passwordEncoder
@@ -45,7 +46,7 @@ public class UserService implements UserDetailsService {
         var verificationToken = new VerificationToken(
                 token,
                 LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(10),
+                LocalDateTime.now().plusMinutes(5),
                 user
         );
         verificationTokenService.saveVerificationToken(verificationToken);
