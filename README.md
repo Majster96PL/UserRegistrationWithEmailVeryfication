@@ -40,3 +40,8 @@ http://localhost:8080/registration
 http://localhost:8080/registration/confirm?token=your_token
 ```
 ![image](https://user-images.githubusercontent.com/80486633/164290236-1803ce54-90df-4ac9-8bf1-7979d32af2aa.png)
+
+
+I'm using Postman to test and mailtrap.io to confirm email.
+
+![img.png](img.png)
