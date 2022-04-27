@@ -7,7 +7,7 @@ Spring Web,
 Spring Security,
 Spring Data JPA,
 MySQL,
-Lombock.**
+Lombok.**
 
 ## Installation
 - Download the project,
